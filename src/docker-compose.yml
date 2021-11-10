@@ -8,5 +8,17 @@ services:
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
+  basket.api:
+    image: ${DOCKER_REGISTRY-}basketapi
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.API/Dockerfile
+  redisCache:
+    image: redis
+  discountdb:
+    image: postgres
+
 volumes:
   mongo_data:
+  postgres_data:
+

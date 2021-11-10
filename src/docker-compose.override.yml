@@ -20,3 +20,32 @@ services:
     depends_on:
       - catalogDb
 
+
+  basket.api:
+    container_name: basket_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=redis_cache:6379"
+    ports:
+      - "8001:80"
+    depends_on:
+      - redisCache
+  redisCache:
+    ports:
+      - "6379:6379" 
+    container_name: redis_cache
+    restart: always
+  
+  discountdb:
+    container_name: discountdb
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_DB=DiscountDb
+    restart: always
+    ports:
+        - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
