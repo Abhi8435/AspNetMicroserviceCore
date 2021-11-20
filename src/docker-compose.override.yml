@@ -26,10 +26,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "DatabaseSettings:ConnectionString=redis_cache:6379"
+      - "GrpcSettings:DiscountUrl=http://discount.grpc"
     ports:
       - "8001:80"
     depends_on:
       - redisCache
+      - discount.grpc
   redisCache:
     ports:
       - "6379:6379" 
@@ -48,4 +50,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+
+
+  discount.grpc:
+  
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=admin1234;"
+    ports:
+      - "8002:80"
+    depends_on:
+      - discountdb
+    container_name: discount.grpc
+      
 
